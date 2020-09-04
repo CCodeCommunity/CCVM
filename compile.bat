@@ -1,0 +1,1 @@
+gcc main.c VM.c -o ccvm
