@@ -1,1 +1,1 @@
-gcc main.c VM.c -o ccvm
+gcc main.c CCVM.c -o ccvm
