@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "CCVM.h"
+#include "flags/flags.h"
 
 int main(int argc, char* argv[]) {
 	if (argc <= 1) {
