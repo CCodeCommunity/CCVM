@@ -7,19 +7,26 @@
 Custom data structure that dynamically allocates 32 bit values to the memory
 */
 
-struct ccvm_stack {
+typedef struct ccvm_stack {
     int size;
     int32_t index;
     int32_t* ptr;
-};
+} ccvm_stack;
 
 
 // inits a stack with 400 bytes
-void ccvm_stack_init(struct ccvm_stack* target);
+ccvm_stack ccvm_stack_init();
 
-void ccvm_push(struct ccvm_stack* target, int32_t value);
-int32_t ccvm_pop(struct ccvm_stack* target);
-int32_t ccvm_peek(struct ccvm_stack* target);
-void ccvm_stack_delete(struct ccvm_stack* target);
+// pushes a 32 bit value to the stack
+void ccvm_push(ccvm_stack* target, int32_t value);
+
+// deletes a 32 bit value from the top of the stack and returns it
+int32_t ccvm_pop(ccvm_stack* target);
+
+// returns the value from the top of the stack
+int32_t ccvm_peek(ccvm_stack* target);
+
+// frees all memory from ccvm_stack
+void ccvm_stack_delete(ccvm_stack* target);
 
 #endif
