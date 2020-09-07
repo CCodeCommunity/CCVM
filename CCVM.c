@@ -26,12 +26,25 @@ void ccvm_load_program(CCVM* vm, char *filename) {
 		exit(1);
 	}
 
-	vm -> ccvm_bytecode = buffer;
-	vm -> ccvm_program_length = size;
+	vm->bytecode = buffer;
+	vm->program_length = size;
 }
 
 void ccvm_debug_program(CCVM* vm) {
-	for (int i = 0; i < vm -> ccvm_program_length; i++) {
-		printf("0x%.2x ", vm -> ccvm_bytecode[i]);
+	for (int i = 0; i < vm->program_length; i++) {
+		printf("0x%.2x ", vm->bytecode[i]);
+	}
+}
+
+void ccvm_step(CCVM* vm) {
+	uint8_t instruction = vm->bytecode[vm->pc];
+	int a = 5;
+	ccvm_instructionset[instruction](&a);
+}
+
+void ccvm_run(CCVM* vm) {
+	while (!ccvm_flags_get(&vm->flags, ccvm_flag_stop)) {
+		ccvm_step(vm);	
+		vm->pc++;
 	}
 }

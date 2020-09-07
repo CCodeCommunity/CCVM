@@ -1,3 +1,6 @@
+#ifndef stack_guard
+#define stack_guard
+
 #include <stdint.h>
 
 /*
@@ -18,3 +21,5 @@ void ccvm_push(struct ccvm_stack* target, int32_t value);
 int32_t ccvm_pop(struct ccvm_stack* target);
 int32_t ccvm_peek(struct ccvm_stack* target);
 void ccvm_stack_delete(struct ccvm_stack* target);
+
+#endif

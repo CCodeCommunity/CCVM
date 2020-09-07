@@ -25,7 +25,7 @@
 	so then we will end up with 1
 */
 char ccvm_flags_get(ccvm_flagset* fs, ccvm_flagset_flags index) {
-	return (fs -> values >> index-1) && 0x01;
+	return (fs -> values >> (index-1)) && 0x01;
 }
 
 /*
