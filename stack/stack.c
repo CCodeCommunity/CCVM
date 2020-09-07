@@ -10,8 +10,8 @@ void ccvm_push(struct ccvm_stack* target, int32_t value) {
         target->ptr = (int32_t*) realoc(target->ptr, target->size * sizeof(int32_t));
     }
 
-    target->index++;
     target->ptr[target->index] = value;
+    target->index++;
 }
 
 int32_t ccvm_pop(struct ccvm_stack* target) {
