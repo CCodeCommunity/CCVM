@@ -1,6 +1,8 @@
 #ifndef ccvm_flags_guard
 #define ccvm_flags_guard
 
+typedef struct CCVM CCVM;
+
 // the names of all the flags
 // in the CCVM
 typedef enum ccvm_flagset_flags {

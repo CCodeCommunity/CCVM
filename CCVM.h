@@ -44,7 +44,7 @@ typedef enum ccvm_Register {
 	program_length:
 		The length of the bytecode array
 */
-typedef struct CCVM {
+struct CCVM {
 	uint32_t ccvm_registers[4];
 	ccvm_flagset flags;
 	uint8_t *bytecode;
@@ -54,7 +54,7 @@ typedef struct CCVM {
 	uint32_t sbp;
 
 	size_t program_length;
-} CCVM;
+};
 
 // main executation functionality
 CCVM 	ccvm_create_ccvm();                   		// returns a new fresh VM with default state
