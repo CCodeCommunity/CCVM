@@ -25,7 +25,7 @@ typedef struct CCVM CCVM;
 /* 0x09 */	// void ccvm_instructions_mov_reg_mem(CCVM*);
 
 // math opcodes
-/* 0x10 */	// void ccvm_instructions_math_add_reg(CCVM*);
+/* 0x10 */	void ccvm_instructions_math_add_reg(CCVM*);
 /* 0x11 */	// void ccvm_instructions_math_add_stack(CCVM*);
 /* 0x12 */	// void ccvm_instructions_math_sub_reg(CCVM*);
 /* 0x13 */	// void ccvm_instructions_math_sub_stack(CCVM*);

@@ -27,4 +27,7 @@ void ccvm_flags_set(ccvm_flagset* fs, ccvm_flagset_flags index, char value);
 // ccvm_flags_get takes the index of a flag from ccvm_flagset_flags
 // and returns the current value of that flag
 char ccvm_flags_get(ccvm_flagset* fs, ccvm_flagset_flags index);
+
+// ccvm_dubug_flags takes a flagset and neatly prints it to stdout
+void ccvm_flags_debug(CCVM* fs);
 #endif

@@ -10,10 +10,13 @@ int main(int argc, char* argv[]) {
 		return 1;
 	} else {
 		CCVM vm = ccvm_create_ccvm();
+		
 		ccvm_program_load(&vm, argv[1]);
 		ccvm_program_run(&vm);
+
 		ccvm_stack_debug(&vm);
 		ccvm_registers_debug(&vm);
+		ccvm_flags_debug(&vm);
 	}
 
 	return 0;

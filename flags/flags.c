@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "../CCVM.h"
+
 /*
 	we must get the index'th bit of the values of fs
 	to do that, we first bitshift left by index-1 so that
@@ -42,4 +44,8 @@ char ccvm_flags_get(ccvm_flagset* fs, ccvm_flagset_flags index) {
 */
 void ccvm_flags_set(ccvm_flagset* fs, ccvm_flagset_flags index, char value) {
 	fs->values ^= (-value ^ fs->values) & (1UL << (7 - index));
+}
+
+void ccvm_flags_debug(CCVM* vm) {
+	printf("flags:\n\tequal: %d\n\tnot equal: %d\n\tgreater: %d\n\tsmaller: %d\n\toverflow: %d\n\tstop: %d\n\t", ccvm_flags_get(&vm->flags, ccvm_flag_equal), ccvm_flags_get(&vm->flags, ccvm_flag_not_equal), ccvm_flags_get(&vm->flags, ccvm_flag_greater), ccvm_flags_get(&vm->flags, ccvm_flag_smaller), ccvm_flags_get(&vm->flags, ccvm_flag_overflow), ccvm_flags_get(&vm->flags, ccvm_flag_stop));
 }

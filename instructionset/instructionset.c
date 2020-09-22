@@ -1,8 +1,11 @@
 #include "instructionset.h"
 #include "../stack/stack.h"
+#include "../flags/flags.h"
 #include "../CCVM.h"
 
-int fetchLit(CCVM* vm) {
+#include <limits.h>
+
+uint32_t fetchLit(CCVM* vm) {
 	int n = 0;
 
 	for (int i = 1; i <= 4; i++) {
@@ -52,6 +55,18 @@ void ccvm_instructions_stack_dupe(CCVM* vm) {
 // [opcode(1) register(1)] 2b
 void ccvm_instructions_pop_reg(CCVM* vm) {
 	vm->registers[fetchReg(vm)] = ccvm_stack_pop(vm->stack);
+}
+
+// [opcode(1) register(1) register(1)] 3b
+void ccvm_instructions_math_add_reg(CCVM* vm) {
+	puts("hey");
+	char a = fetchReg(vm);
+	char b = fetchReg(vm);
+
+	vm->registers[a] += vm->registers[b];
+	if (a > INT_MAX - b) { // overflow check
+		ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+	}
 }
 
 // [] 0b

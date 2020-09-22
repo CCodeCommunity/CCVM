@@ -3,13 +3,23 @@
 #define debug 1
 
 void (*ccvm_instructionset[256])(CCVM*) = {
-   ccvm_instructions_exit,
-   ccvm_instructions_push_lit,
-   ccvm_instructions_push_reg,
-   ccvm_instructions_pop_reg,
-   ccvm_instructions_nop, // TODO
-   ccvm_instructions_stack_dupe,
-   ccvm_instructions_mov_lit_reg
+   /* 0x00 */ ccvm_instructions_exit,
+   /* 0x01 */ ccvm_instructions_push_lit,
+   /* 0x02 */ ccvm_instructions_push_reg,
+   /* 0x03 */ ccvm_instructions_pop_reg,
+   /* 0x04 */ ccvm_instructions_nop, // TODO
+   /* 0x05 */ ccvm_instructions_stack_dupe,
+   /* 0x06 */ ccvm_instructions_mov_lit_reg,
+   /* 0x07 */ ccvm_instructions_nop, // TODO
+   /* 0x08 */ ccvm_instructions_nop, // TODO
+   /* 0x09 */ ccvm_instructions_nop, // TODO
+   /* 0x0a */ ccvm_instructions_nop, // TODO
+   /* 0x0b */ ccvm_instructions_nop, // TODO
+   /* 0x0c */ ccvm_instructions_nop, // TODO
+   /* 0x0d */ ccvm_instructions_nop, // TODO
+   /* 0x0e */ ccvm_instructions_nop, // TODO
+   /* 0x0f */ ccvm_instructions_nop, // TODO
+   /* 0x10 */ ccvm_instructions_math_add_reg,
 };
 
 CCVM ccvm_create_ccvm() {
@@ -63,5 +73,5 @@ void ccvm_program_run(CCVM* vm) {
 }
 
 void ccvm_registers_debug(CCVM* vm) {
-    printf("registers:\n\ta = %d\n\tb = %d\n\tc = %d\n\tc = %d\n\n", vm->registers[0], vm->registers[1], vm->registers[2], vm->registers[3]);
+    printf("registers:\n\ta = %u\n\tb = %u\n\tc = %u\n\tc = %u\n\n", vm->registers[0], vm->registers[1], vm->registers[2], vm->registers[3]);
 }
