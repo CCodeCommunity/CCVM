@@ -12,7 +12,7 @@ ccvm_stack ccvm_stack_init() {
     return target;
 }
 
-void ccvm_push(ccvm_stack* target, int32_t value) {
+void ccvm_stack_push(ccvm_stack* target, int32_t value) {
     if (target->length >= target->capacity) {
         target->ptr = (int32_t*) realloc(target->ptr, target->capacity * sizeof(int32_t));
         target->capacity = target->capacity * sizeof(int32_t);
@@ -22,7 +22,7 @@ void ccvm_push(ccvm_stack* target, int32_t value) {
     target->length++;
 }
 
-int32_t ccvm_pop(ccvm_stack* target) {
+int32_t ccvm_stack_pop(ccvm_stack* target) {
     int32_t value = target->ptr[target->length - 1];
     target->ptr[target->length] = 0;
 
@@ -30,7 +30,7 @@ int32_t ccvm_pop(ccvm_stack* target) {
     return value;
 }
 
-int32_t ccvm_peek(ccvm_stack* target) {
+int32_t ccvm_stack_peek(ccvm_stack* target) {
     return target->ptr[target->length - 1];
 }
 
@@ -39,21 +39,14 @@ void ccvm_stack_delete(ccvm_stack* target) {
 }
 
 void ccvm_stack_debug(ccvm_stack* target) {
-    printf("printing stack in debug mode... \n");
-    printf("length: %d \ncapacity: %d \n \n", target->length, target->capacity);
-    int index = 0;
+    printf("stack: length: %d capacity: %d \n", target->length, target->capacity);
     
-    while (index <= target->capacity) {
-        printf("%zu ", target->ptr[index]);
+    if (target->length == 0) {
+        puts("\t*empty*\n");
+        return;
+    }
 
-        if (index % 50 == 0) {
-            printf("\n");
-        }
-
-        if (index == (target->capacity -1)) {
-            printf("\n");
-        }
-
-        index++;
+    for (int i = 0; i < target->length; i++) {
+        printf("\t%d\n", target->ptr[i]);
     }
 }

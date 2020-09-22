@@ -1,7 +1,10 @@
 #include "CCVM.h"
 
+#define debug 1
+
 void (*ccvm_instructionset[256])(CCVM*) = {
-   ccvm_instructions_exit
+   ccvm_instructions_exit,
+   ccvm_instructions_push_lit
 };
 
 CCVM ccvm_create_ccvm() {
@@ -42,6 +45,14 @@ void ccvm_debug_program(CCVM* vm) {
 
 void ccvm_step(CCVM* vm) {
     uint8_t instruction = vm->bytecode[vm->pc];
+    
+    #if debug == 1
+        printf("[debug] now at instruction: %d\n", instruction);
+    #endif
+    
+    ccvm_instructionset[1](vm);
+    puts("here");
+
     ccvm_instructionset[instruction](vm);
 }
 

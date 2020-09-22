@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 #include "flags/flags.h"
+#include "stack/stack.h"
 #include "instructionset/instructionset.h"
 
 /*
@@ -48,7 +49,7 @@ struct CCVM {
 	uint32_t ccvm_registers[4];
 	ccvm_flagset flags;
 	uint8_t *bytecode;
-	uint32_t *stack;
+	ccvm_stack *stack;
 	uint32_t *memory;
 	uint32_t pc;
 	uint32_t sbp;
@@ -67,8 +68,7 @@ uint8_t ccvm_fetch_register(CCVM* vm);				// fetches an opcode from program and 
 void ccvm_debug_registers(CCVM* vm);				// prints registers
 void ccvm_debug_memory(CCVM* vm);					// prints memory
 void ccvm_debug_program(CCVM* vm);					// prints program data
-void ccvm_debug_flags(CCVM* vm);					// prints flags
-void ccvm_debug_stack(CCVM* vm);					// prints stack
+void ccvm_debug_flags(CCVM* vm);					// prints flags					// prints stack
 
 void ccvm_step(CCVM* vm);								// run a single CPU clockcycle
 void ccvm_run(CCVM* vm);								// run the VM continuously

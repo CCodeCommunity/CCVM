@@ -1,4 +1,6 @@
 #include "flags.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 /*
 	we must get the index'th bit of the values of fs
@@ -25,7 +27,7 @@
 	so then we will end up with 1
 */
 char ccvm_flags_get(ccvm_flagset* fs, ccvm_flagset_flags index) {
-	return (fs -> values >> (index-1)) && 0x01;
+	return (fs->values >> (7- index)) & 1U;
 }
 
 /*
@@ -39,5 +41,5 @@ char ccvm_flags_get(ccvm_flagset* fs, ccvm_flagset_flags index) {
 	on the value operation
 */
 void ccvm_flags_set(ccvm_flagset* fs, ccvm_flagset_flags index, char value) {
-	fs -> values ^= (value << (7 - index));
+	fs->values ^= (-value ^ fs->values) & (1UL << (7 - index));
 }
