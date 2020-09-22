@@ -7,7 +7,7 @@ void (*ccvm_instructionset[256])(CCVM*) = {
    ccvm_instructions_push_lit,
    ccvm_instructions_push_reg,
    ccvm_instructions_pop_reg,
-   ccvm_instructions_nop,
+   ccvm_instructions_nop, // TODO
    ccvm_instructions_stack_dupe,
    ccvm_instructions_mov_lit_reg
 };
