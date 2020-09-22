@@ -8,14 +8,14 @@ Custom data structure that dynamically allocates 32 bit values to the memory
 */
 
 typedef struct ccvm_stack {
-    int capacity;
+    int32_t capacity;
     int32_t length;
     int32_t* ptr;
 } ccvm_stack;
 
 
 // inits a stack with 400 bytes
-ccvm_stack ccvm_stack_init();
+ccvm_stack* ccvm_stack_init();
 
 // pushes a 32 bit value to the stack
 void ccvm_stack_push(ccvm_stack* target, int32_t value);

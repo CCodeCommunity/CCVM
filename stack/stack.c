@@ -3,12 +3,10 @@
 #include <stdio.h>
 #include "stack.h"
 
-ccvm_stack ccvm_stack_init() {
-    ccvm_stack target;
-    target.ptr = (int32_t*) malloc(target.capacity * sizeof(int32_t));
-    target.length = 0;
-    target.capacity = 100;
-
+ccvm_stack* ccvm_stack_init() {
+    ccvm_stack* target = malloc(sizeof(ccvm_stack));
+    target->capacity = 100;
+    target->ptr = (int32_t*) malloc(target->capacity * sizeof(int32_t));
     return target;
 }
 

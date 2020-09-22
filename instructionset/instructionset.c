@@ -9,13 +9,13 @@ int fetchLit(CCVM* vm) {
 		n = (n << 8) + vm->bytecode[vm->pc + i];
 	}
 
-	return n;
 	vm->pc += 4;
+
+	return n;
 }
 
 // ---- opcodes ----
 void ccvm_instructions_exit(CCVM* vm) {
-	puts("here\n");
     ccvm_flags_set(&vm->flags, ccvm_flag_stop, 1);
 }
 

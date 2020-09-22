@@ -45,18 +45,12 @@ void ccvm_debug_program(CCVM* vm) {
 
 void ccvm_step(CCVM* vm) {
     uint8_t instruction = vm->bytecode[vm->pc];
-    
-    #if debug == 1
-        printf("[debug] now at instruction: %d\n", instruction);
-    #endif
-    
-    ccvm_instructionset[1](vm);
-    puts("here");
 
     ccvm_instructionset[instruction](vm);
 }
 
 void ccvm_run(CCVM* vm) {
+    vm->stack = ccvm_stack_init();
     while (!ccvm_flags_get(&vm->flags, ccvm_flag_stop)) {
         ccvm_step(vm);    
         vm->pc++;
