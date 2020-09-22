@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "stack.h"
+#include "../CCVM.h"
 
 ccvm_stack* ccvm_stack_init() {
     ccvm_stack* target = malloc(sizeof(ccvm_stack));
@@ -36,15 +37,15 @@ void ccvm_stack_delete(ccvm_stack* target) {
     free(target);
 }
 
-void ccvm_stack_debug(ccvm_stack* target) {
-    printf("stack: length: %d capacity: %d \n", target->length, target->capacity);
+void ccvm_stack_debug(CCVM* target) {
+    printf("stack: length: %d capacity: %d \n", target->stack->length, target->stack->capacity);
     
-    if (target->length == 0) {
+    if (target->stack->length == 0) {
         puts("\t*empty*\n");
         return;
     }
 
-    for (int i = 0; i < target->length; i++) {
-        printf("\t%d\n", target->ptr[i]);
+    for (int i = 0; i < target->stack->length; i++) {
+        printf("\t%d\n", target->stack->ptr[i]);
     }
 }

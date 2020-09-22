@@ -4,7 +4,12 @@
 
 void (*ccvm_instructionset[256])(CCVM*) = {
    ccvm_instructions_exit,
-   ccvm_instructions_push_lit
+   ccvm_instructions_push_lit,
+   ccvm_instructions_nop,
+   ccvm_instructions_nop,
+   ccvm_instructions_nop,
+   ccvm_instructions_nop,
+   ccvm_instructions_mov_lit_reg
 };
 
 CCVM ccvm_create_ccvm() {
@@ -12,7 +17,7 @@ CCVM ccvm_create_ccvm() {
     return ret;
 }
 
-void ccvm_load_program(CCVM* vm, char *filename) {
+void ccvm_program_load(CCVM* vm, char *filename) {
     // open file
     FILE *fp = fopen(filename, "rb");
 
@@ -37,22 +42,25 @@ void ccvm_load_program(CCVM* vm, char *filename) {
     vm->program_length = size;
 }
 
-void ccvm_debug_program(CCVM* vm) {
+void ccvm_program_debug(CCVM* vm) {
     for (int i = 0; i < vm->program_length; i++) {
         printf("0x%.2x ", vm->bytecode[i]);
     }
 }
 
-void ccvm_step(CCVM* vm) {
+void ccvm_program_step(CCVM* vm) {
     uint8_t instruction = vm->bytecode[vm->pc];
-
     ccvm_instructionset[instruction](vm);
 }
 
-void ccvm_run(CCVM* vm) {
+void ccvm_program_run(CCVM* vm) {
     vm->stack = ccvm_stack_init();
     while (!ccvm_flags_get(&vm->flags, ccvm_flag_stop)) {
-        ccvm_step(vm);    
+        ccvm_program_step(vm);    
         vm->pc++;
     }
+}
+
+void ccvm_registers_debug(CCVM* vm) {
+    printf("registers:\n\ta = %d\n\tb = %d\n\tc = %d\n\tc = %d\n\n", vm->registers[0], vm->registers[1], vm->registers[2], vm->registers[3]);
 }

@@ -46,7 +46,7 @@ typedef enum ccvm_Register {
 		The length of the bytecode array
 */
 struct CCVM {
-	uint32_t ccvm_registers[4];
+	uint32_t registers[4];
 	ccvm_flagset flags;
 	uint8_t *bytecode;
 	ccvm_stack *stack;
@@ -59,18 +59,14 @@ struct CCVM {
 
 // main executation functionality
 CCVM 	ccvm_create_ccvm();                   		// returns a new fresh VM with default state
-void ccvm_load_program(CCVM* vm, char* program);	// loads a program into the bytecode array of a VM
+void ccvm_program_load(CCVM* vm, char* program);	// loads a program into the bytecode array of a VM
 
-uint8_t ccvm_fetch_opcode(CCVM* vm);				// fetches an opcode from program and sets it as instruction
-uint16_t ccvm_fetch_integer(CCVM* vm);				// fetches an opcode from program and returns it
-uint8_t ccvm_fetch_register(CCVM* vm);				// fetches an opcode from program and returns it
-
-void ccvm_debug_registers(CCVM* vm);				// prints registers
+void ccvm_registers_debug(CCVM* vm);				// prints registers
 void ccvm_debug_memory(CCVM* vm);					// prints memory
-void ccvm_debug_program(CCVM* vm);					// prints program data
+void ccvm_program_debug(CCVM* vm);					// prints program data
 void ccvm_debug_flags(CCVM* vm);					// prints flags					// prints stack
 
-void ccvm_step(CCVM* vm);								// run a single CPU clockcycle
-void ccvm_run(CCVM* vm);								// run the VM continuously
+void ccvm_program_step(CCVM* vm);								// run a single CPU clockcycle
+void ccvm_program_run(CCVM* vm);								// run the VM continuously
 
 #endif

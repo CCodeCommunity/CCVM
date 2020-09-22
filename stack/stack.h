@@ -7,6 +7,8 @@
 Custom data structure that dynamically allocates 32 bit values to the memory
 */
 
+typedef struct CCVM CCVM;
+
 typedef struct ccvm_stack {
     int32_t capacity;
     int32_t length;
@@ -30,6 +32,6 @@ int32_t ccvm_stack_peek(ccvm_stack* target);
 void ccvm_stack_delete(ccvm_stack* target);
 
 // neatly prints out information about the stack along with its contents
-void ccvm_stack_debug(ccvm_stack* target);
+void ccvm_stack_debug(CCVM* target);
 
 #endif
