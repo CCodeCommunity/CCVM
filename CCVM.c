@@ -5,10 +5,10 @@
 void (*ccvm_instructionset[256])(CCVM*) = {
    ccvm_instructions_exit,
    ccvm_instructions_push_lit,
+   ccvm_instructions_push_reg,
+   ccvm_instructions_pop_reg,
    ccvm_instructions_nop,
-   ccvm_instructions_nop,
-   ccvm_instructions_nop,
-   ccvm_instructions_nop,
+   ccvm_instructions_stack_dupe,
    ccvm_instructions_mov_lit_reg
 };
 
@@ -50,6 +50,7 @@ void ccvm_program_debug(CCVM* vm) {
 
 void ccvm_program_step(CCVM* vm) {
     uint8_t instruction = vm->bytecode[vm->pc];
+    printf("[DEBUG] doing instruction %d\n", instruction);
     ccvm_instructionset[instruction](vm);
 }
 

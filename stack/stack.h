@@ -15,7 +15,6 @@ typedef struct ccvm_stack {
     int32_t* ptr;
 } ccvm_stack;
 
-
 // inits a stack with 400 bytes
 ccvm_stack* ccvm_stack_init();
 
