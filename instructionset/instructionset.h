@@ -45,24 +45,26 @@ typedef struct CCVM CCVM;
 // jump opcodes
 /* 0x20 */	// void ccvm_instructions_jump_absolute(CCVM*);
 /* 0x21 */	// void ccvm_instructions_jump_relative(CCVM*);
-/* 0x30 */	// void ccvm_instructions_compare_reg_reg(CCVM*);
-/* 0x31 */	// void ccvm_instructions_compare_reg_lit(CCVM*);
-/* 0x32 */	// void ccvm_instructions_compare_stack_lit(CCVM*);
+/* 0x30 */	void ccvm_instructions_compare_reg_reg(CCVM*);
+/* 0x31 */	void ccvm_instructions_compare_reg_lit(CCVM*);
+/* 0x32 */	void ccvm_instructions_compare_stack_lit(CCVM*);
 /* 0x33 */	// void ccvm_instructions_jump_equal(CCVM*);
 /* 0x34 */	// void ccvm_instructions_jump_notequal(CCVM*);
 /* 0x35 */	// void ccvm_instructions_jump_greater(CCVM*);
 /* 0x36 */	// void ccvm_instructions_jump_smaller(CCVM*);
 /* 0x37 */	// void ccvm_instructions_jump_overflow(CCVM*);
-/* 0x40 */	// void ccvm_instructions_flag_reset(CCVM*);
+/* 0x40 */	void ccvm_instructions_flag_reset(CCVM*);
 
 // other math opcodes
-/* 0x50 */	// void ccvm_instructions_math_inc_reg(CCVM*);
-/* 0x51 */	// void ccvm_instructions_math_dec_reg(CCVM*);
+/* 0x50 */	void ccvm_instructions_math_inc_reg(CCVM*);
+/* 0x51 */	void ccvm_instructions_math_dec_reg(CCVM*);
+/* 0x52 */  void ccvm_instructions_math_inc_stack(CCVM*);
+/* 0x53 */	void ccvm_instructions_math_dec_stack(CCVM*);
 
 // other
 /* 0x60 */	// void ccvm_instructions_procedure_call(CCVM*);
 /* 0x61 */	// void ccvm_instructions_procedure_return(CCVM*);
-/* 0xff */	// void ccvm_instructions_syscall(CCVM*);
+/* 0xff */	void ccvm_instructions_syscall(CCVM*);
 
 extern void (*ccvm_instructionset[256])(CCVM*);
 #endif

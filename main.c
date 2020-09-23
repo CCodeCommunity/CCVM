@@ -3,6 +3,7 @@
 #include "flags/flags.h"
 
 // gcc main.c CCVM.c flags/flags.c instructionset/instructionset.c stack/stack.c -o ccvm
+// cloc main.c CCVM.c CCVM.h stack instructionset flags
 
 int main(int argc, char* argv[]) {
 	if (argc <= 1) {

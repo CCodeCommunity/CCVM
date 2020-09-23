@@ -5,6 +5,36 @@
 
 #include <limits.h>
 
+/*
+// clear screen on windows
+#ifdef _WIN32
+#include <windows.h>
+void clearScreen(void) {
+    HANDLE hOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD topLeft = {0, 0};
+    DWORD dwCount, dwSize;
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(hOutput, &csbi);
+    dwSize = csbi.dwSize.X * csbi.dwSize.Y;
+    FillConsoleOutputCharacter(hOutput, 0x20, dwSize, topLeft, &dwCount);
+    FillConsoleOutputAttribute(hOutput, 0x07, dwSize, topLeft, &dwCount);
+    SetConsoleCursorPosition(hOutput, topLeft);
+}
+#endif
+
+// clear sceen on UNIX systems
+#ifdef __unix__
+#include <stdio.h>
+void clearScreen(void) {
+    printf("\x1B[2J");
+}
+#endif
+*/
+
+void clearScreen(void) {
+	system("cls || clear");
+}
+
 uint32_t fetchLit(CCVM* vm) {
 	int n = 0;
 
@@ -20,6 +50,13 @@ uint32_t fetchLit(CCVM* vm) {
 char fetchReg(CCVM* vm) {
 	vm->pc++;
 	return vm->bytecode[vm->pc];
+}
+
+void compareNumbers(CCVM* vm, uint32_t a, uint32_t b) {
+	ccvm_flags_set(&vm->flags, ccvm_flag_equal, a == b);
+	ccvm_flags_set(&vm->flags, ccvm_flag_not_equal, a != b);
+	ccvm_flags_set(&vm->flags, ccvm_flag_greater, a > b);
+	ccvm_flags_set(&vm->flags, ccvm_flag_smaller, a < b);
 }
 
 // ---- opcodes ----
@@ -201,5 +238,99 @@ void ccvm_instructions_math_xor_stack(CCVM* vm) {
 	ccvm_stack_push(vm->stack, a ^ b);
 }
 
+// [opcode(1) register(1)] 2b
+void ccvm_instructions_math_inc_reg(CCVM* vm) {
+	char a = fetchReg(vm);
+
+	if (vm->registers[a] == UINT_MAX) {
+		ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+	}
+
+	vm->registers[a]++;
+}
+
+// [opcode(1) register(1)] 2b
+void ccvm_instructions_math_dec_reg(CCVM* vm) {
+	char a = fetchReg(vm);
+
+	if (vm->registers[a] == 0) {
+		ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+	}
+
+	vm->registers[a]--;
+}
+
+// [opcode(1)] 1b
+void ccvm_instructions_math_inc_stack(CCVM* vm) {
+	uint32_t a = ccvm_stack_pop(vm->stack);
+
+	if (a == UINT_MAX) {
+		ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+	}
+
+	ccvm_stack_push(vm->stack, ++a);
+}
+
+// [opcode(1)] 1b
+void ccvm_instructions_math_dec_stack(CCVM* vm) {
+	uint32_t a = ccvm_stack_pop(vm->stack);
+
+	if (a == 0) {
+		ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+	}
+
+	ccvm_stack_push(vm->stack, ++a);
+}
+
+// [opcode(1) register(1) register(1)] 3b
+void ccvm_instructions_compare_reg_reg(CCVM* vm) {
+	char a = vm->registers[fetchReg(vm)];
+	char b = vm->registers[fetchReg(vm)];
+	compareNumbers(vm, a, b);
+}
+
+// [opcode(1) register(1) literal(4)] 6b
+void ccvm_instructions_compare_reg_lit(CCVM* vm) {
+	uint32_t a = vm->registers[fetchReg(vm)];
+	uint32_t b = fetchLit(vm);
+	compareNumbers(vm, a, b);
+}
+
+// [opcode(1) register(1) literal(4)] 6b
+void ccvm_instructions_compare_stack_lit(CCVM* vm) {
+	uint32_t a = ccvm_stack_peek(vm->stack);
+	uint32_t b = fetchLit(vm);
+	compareNumbers(vm, a, b);
+}
+
+// [opcode(1)] 1b
+void ccvm_instructions_flag_reset(CCVM* vm) {
+	ccvm_flags_set(&vm->flags, ccvm_flag_equal, 0);
+	ccvm_flags_set(&vm->flags, ccvm_flag_not_equal, 0);
+	ccvm_flags_set(&vm->flags, ccvm_flag_greater, 0);
+	ccvm_flags_set(&vm->flags, ccvm_flag_smaller, 0);
+	ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 0);
+}
+
+// [opcode(1)] 1b
+void ccvm_instructions_syscall(CCVM* vm) {
+	switch (vm->registers[0]) {
+		case 0: {
+			// cout
+		}
+
+		case 1: {
+			// cin
+		}
+
+		case 2: {
+			// cclear
+			clearScreen();
+		}
+	}
+}
+
 // [] 0b
-void ccvm_instructions_nop(CCVM* vm) {}
+void ccvm_instructions_nop(CCVM* vm) {
+	puts("[INFO] nop called");
+}
