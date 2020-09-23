@@ -26,21 +26,21 @@ typedef struct CCVM CCVM;
 
 // math opcodes
 /* 0x10 */	void ccvm_instructions_math_add_reg(CCVM*);
-/* 0x11 */	// void ccvm_instructions_math_add_stack(CCVM*);
-/* 0x12 */	// void ccvm_instructions_math_sub_reg(CCVM*);
-/* 0x13 */	// void ccvm_instructions_math_sub_stack(CCVM*);
-/* 0x14 */	// void ccvm_instructions_math_mul_reg(CCVM*);
-/* 0x15 */	// void ccvm_instructions_math_mul_stack(CCVM*);
-/* 0x16 */	// void ccvm_instructions_math_div_reg(CCVM*);
-/* 0x17 */	// void ccvm_instructions_math_div_stack(CCVM*);
-/* 0x18 */	// void ccvm_instructions_math_not_reg(CCVM*);
-/* 0x19 */	// void ccvm_instructions_math_not_stack(CCVM*);
-/* 0x1a */	// void ccvm_instructions_math_and_reg(CCVM*);
-/* 0x1b */	// void ccvm_instructions_math_and_stack(CCVM*);
-/* 0x1c */	// void ccvm_instructions_math_or_reg(CCVM*);
-/* 0x1d */	// void ccvm_instructions_math_or_stack(CCVM*);
-/* 0x1e */	// void ccvm_instructions_math_xor_reg(CCVM*);
-/* 0x1f */	// void ccvm_instructions_math_xor_stack(CCVM*);
+/* 0x11 */	void ccvm_instructions_math_add_stack(CCVM*);
+/* 0x12 */	void ccvm_instructions_math_sub_reg(CCVM*);
+/* 0x13 */	void ccvm_instructions_math_sub_stack(CCVM*);
+/* 0x14 */	void ccvm_instructions_math_mul_reg(CCVM*);
+/* 0x15 */	void ccvm_instructions_math_mul_stack(CCVM*);
+/* 0x16 */	void ccvm_instructions_math_div_reg(CCVM*);
+/* 0x17 */	void ccvm_instructions_math_div_stack(CCVM*);
+/* 0x18 */	void ccvm_instructions_math_not_reg(CCVM*);
+/* 0x19 */	void ccvm_instructions_math_not_stack(CCVM*);
+/* 0x1a */	void ccvm_instructions_math_and_reg(CCVM*);
+/* 0x1b */	void ccvm_instructions_math_and_stack(CCVM*);
+/* 0x1c */	void ccvm_instructions_math_or_reg(CCVM*);
+/* 0x1d */	void ccvm_instructions_math_or_stack(CCVM*);
+/* 0x1e */	void ccvm_instructions_math_xor_reg(CCVM*);
+/* 0x1f */	void ccvm_instructions_math_xor_stack(CCVM*);
 
 // jump opcodes
 /* 0x20 */	// void ccvm_instructions_jump_absolute(CCVM*);

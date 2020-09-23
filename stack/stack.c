@@ -7,29 +7,29 @@
 ccvm_stack* ccvm_stack_init() {
     ccvm_stack* target = malloc(sizeof(ccvm_stack));
     target->capacity = 100;
-    target->ptr = (int32_t*) malloc(target->capacity * sizeof(int32_t));
+    target->ptr = (uint32_t*) malloc(target->capacity * sizeof(uint32_t));
     return target;
 }
 
-void ccvm_stack_push(ccvm_stack* target, int32_t value) {
+void ccvm_stack_push(ccvm_stack* target, uint32_t value) {
     if (target->length >= target->capacity) {
-        target->ptr = (int32_t*) realloc(target->ptr, target->capacity * sizeof(int32_t));
-        target->capacity = target->capacity * sizeof(int32_t);
+        target->ptr = (uint32_t*) realloc(target->ptr, target->capacity * sizeof(uint32_t));
+        target->capacity = target->capacity * sizeof(uint32_t);
     }
     
     target->ptr[target->length] = value;
     target->length++;
 }
 
-int32_t ccvm_stack_pop(ccvm_stack* target) {
-    int32_t value = target->ptr[target->length - 1];
+uint32_t ccvm_stack_pop(ccvm_stack* target) {
+    uint32_t value = target->ptr[target->length - 1];
     target->ptr[target->length] = 0;
 
     target->length--;
     return value;
 }
 
-int32_t ccvm_stack_peek(ccvm_stack* target) {
+uint32_t ccvm_stack_peek(ccvm_stack* target) {
     return target->ptr[target->length - 1];
 }
 
@@ -45,7 +45,7 @@ void ccvm_stack_debug(CCVM* target) {
         return;
     }
 
-    for (int i = 0; i < target->stack->length; i++) {
-        printf("\t%d\n", target->stack->ptr[i]);
+    for (int i = target->stack->length - 1; i >= 0; i--) {
+        printf("\t%u\n", target->stack->ptr[i]);
     }
 }

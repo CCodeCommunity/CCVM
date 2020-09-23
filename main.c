@@ -12,11 +12,20 @@ int main(int argc, char* argv[]) {
 		CCVM vm = ccvm_create_ccvm();
 		
 		ccvm_program_load(&vm, argv[1]);
+		ccvm_program_debug(&vm);
+		puts("");
+
 		ccvm_program_run(&vm);
+		puts(""); // remove
 
 		ccvm_stack_debug(&vm);
+		puts("");
+
 		ccvm_registers_debug(&vm);
+		puts("");
+
 		ccvm_flags_debug(&vm);
+		puts("");
 	}
 
 	return 0;

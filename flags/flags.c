@@ -47,5 +47,5 @@ void ccvm_flags_set(ccvm_flagset* fs, ccvm_flagset_flags index, char value) {
 }
 
 void ccvm_flags_debug(CCVM* vm) {
-	printf("flags:\n\tequal: %d\n\tnot equal: %d\n\tgreater: %d\n\tsmaller: %d\n\toverflow: %d\n\tstop: %d\n\t", ccvm_flags_get(&vm->flags, ccvm_flag_equal), ccvm_flags_get(&vm->flags, ccvm_flag_not_equal), ccvm_flags_get(&vm->flags, ccvm_flag_greater), ccvm_flags_get(&vm->flags, ccvm_flag_smaller), ccvm_flags_get(&vm->flags, ccvm_flag_overflow), ccvm_flags_get(&vm->flags, ccvm_flag_stop));
+	printf("flags:\n\tequal: %d\n\tnot equal: %d\n\tgreater: %d\n\tsmaller: %d\n\toverflow: %d\n\tstop: %d\n", ccvm_flags_get(&vm->flags, ccvm_flag_equal), ccvm_flags_get(&vm->flags, ccvm_flag_not_equal), ccvm_flags_get(&vm->flags, ccvm_flag_greater), ccvm_flags_get(&vm->flags, ccvm_flag_smaller), ccvm_flags_get(&vm->flags, ccvm_flag_overflow), ccvm_flags_get(&vm->flags, ccvm_flag_stop));
 }
