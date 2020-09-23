@@ -2,6 +2,7 @@
 #define ccvm_instructionset_guard
 
 #include "../flags/flags.h"
+#include "../ram/ram.h"
 
 typedef struct CCVM CCVM;
 
@@ -15,7 +16,7 @@ typedef struct CCVM CCVM;
 /* 0x01 */	void ccvm_instructions_push_lit(CCVM*);
 /* 0x02 */	void ccvm_instructions_push_reg(CCVM*);
 /* 0x03 */	void ccvm_instructions_pop_reg(CCVM*);
-/* 0x04 */  // void ccvm_instructions_pop_memory(CCVM*);
+/* 0x04 */  void ccvm_instructions_pop_memory(CCVM*);
 /* 0x05 */	void ccvm_instructions_stack_dupe(CCVM*);
 
 // MOV opcodes

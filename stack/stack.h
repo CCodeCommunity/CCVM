@@ -4,9 +4,9 @@
 #include <stdint.h>
 
 /*
-Custom data structure that dynamically allocates 32 bit values to the memory
+	Custom data structure that dynamically allocates 32 bit values to the memory
+	in a first-in-first-out manner
 */
-
 typedef struct CCVM CCVM;
 
 typedef struct ccvm_stack {

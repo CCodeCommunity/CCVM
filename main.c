@@ -1,9 +1,10 @@
-#include "stdio.h"
+#include <stdio.h>
 #include "CCVM.h"
 #include "flags/flags.h"
+#include "ram/ram.h"
 
-// gcc main.c CCVM.c flags/flags.c instructionset/instructionset.c stack/stack.c -o ccvm
-// cloc main.c CCVM.c CCVM.h stack instructionset flags
+// gcc main.c CCVM.c flags/flags.c instructionset/instructionset.c stack/stack.c ram/ram.c -o ccvm
+// cloc main.c CCVM.c CCVM.h stack instructionset flags ram
 
 int main(int argc, char* argv[]) {
 	if (argc <= 1) {
@@ -26,6 +27,9 @@ int main(int argc, char* argv[]) {
 		puts("");
 
 		ccvm_flags_debug(&vm);
+		puts("");
+
+		ccvm_ram_debug(&vm);
 		puts("");
 	}
 

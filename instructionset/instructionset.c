@@ -312,6 +312,12 @@ void ccvm_instructions_flag_reset(CCVM* vm) {
 	ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 0);
 }
 
+// [opcode(1) address(4)] 5
+void ccvm_instructions_pop_memory(CCVM* vm) {
+	uint32_t addr = fetchLit(vm);
+	ccvm_ram_write(vm->ram, addr, ccvm_stack_pop(vm->stack));
+}
+
 // [opcode(1)] 1b
 void ccvm_instructions_syscall(CCVM* vm) {
 	switch (vm->registers[0]) {

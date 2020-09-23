@@ -1,13 +1,11 @@
 #include "CCVM.h"
 
-#define debug 1
-
 void (*ccvm_instructionset[256])(CCVM*) = {
   /* 0x00 */ ccvm_instructions_exit,
   /* 0x01 */ ccvm_instructions_push_lit,
   /* 0x02 */ ccvm_instructions_push_reg,
   /* 0x03 */ ccvm_instructions_pop_reg,
-  /* 0x04 */ ccvm_instructions_nop, // TODO
+  /* 0x04 */ ccvm_instructions_pop_memory,
   /* 0x05 */ ccvm_instructions_stack_dupe,
   /* 0x06 */ ccvm_instructions_mov_lit_reg,
   /* 0x07 */ ccvm_instructions_nop, // TODO
@@ -306,6 +304,7 @@ void ccvm_program_step(CCVM* vm) {
 
 void ccvm_program_run(CCVM* vm) {
     vm->stack = ccvm_stack_init();
+    vm->ram = ccvm_ram_init();
     while (!ccvm_flags_get(&vm->flags, ccvm_flag_stop)) {
         ccvm_program_step(vm);    
         vm->pc++;

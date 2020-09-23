@@ -7,12 +7,16 @@
 
 #include "flags/flags.h"
 #include "stack/stack.h"
+#include "ram/ram.h"
 #include "instructionset/instructionset.h"
 
 /*
 	An enum to reference the registers more conveniently
 	inside an instance of a VM 
 */
+
+typedef struct ccvm_ram ccvm_ram;
+
 typedef enum ccvm_Register {
 	CCVM_A, CCVM_B, CCVM_C, CCVM_D
 } ccvm_Register;
@@ -48,12 +52,11 @@ typedef enum ccvm_Register {
 struct CCVM {
 	uint32_t registers[4];
 	ccvm_flagset flags;
-	uint8_t *bytecode;
 	ccvm_stack *stack;
-	uint32_t *memory;
+	ccvm_ram *ram;
+	uint8_t *bytecode;
 	uint32_t pc;
 	uint32_t sbp;
-
 	size_t program_length;
 };
 
