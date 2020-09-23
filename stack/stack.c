@@ -7,17 +7,19 @@
 ccvm_stack* ccvm_stack_init() {
     ccvm_stack* target = malloc(sizeof(ccvm_stack));
     target->capacity = 100;
+    target->length = 0;
     target->ptr = (uint32_t*) malloc(target->capacity * sizeof(uint32_t));
     return target;
 }
 
 void ccvm_stack_push(ccvm_stack* target, uint32_t value) {
-    if (target->length >= target->capacity) {
+    if (target->length > target->capacity) {
         target->ptr = (uint32_t*) realloc(target->ptr, target->capacity * sizeof(uint32_t));
         target->capacity = target->capacity * sizeof(uint32_t);
     }
-    
+
     target->ptr[target->length] = value;
+
     target->length++;
 }
 
