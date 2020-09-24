@@ -318,6 +318,27 @@ void ccvm_instructions_pop_memory(CCVM* vm) {
 	ccvm_ram_write(vm->ram, addr, ccvm_stack_pop(vm->stack));
 }
 
+// [opcode(1) address(4) literal(4)] 9b
+void ccvm_instructions_mov_lit_mem(CCVM* vm) {
+	uint32_t addr = fetchLit(vm);
+	uint32_t literal = fetchLit(vm);
+	ccvm_ram_write(vm->ram, addr, literal);
+}
+
+// [opcode(1) register(1) address(4)] 6b
+void ccvm_instructions_mov_mem_reg(CCVM* vm) {
+	uint32_t reg = fetchReg(vm);
+	uint32_t addr = fetchLit(vm);
+	vm->registers[reg] = ccvm_ram_read(vm->ram, addr);
+}
+
+// [opcode(1) address(4) register(1)] 6b
+void ccvm_instructions_mov_reg_mem(CCVM* vm) {
+	uint32_t addr = fetchLit(vm);
+	uint32_t reg = fetchReg(vm);
+	ccvm_ram_write(vm->ram, addr, vm->registers[reg]);
+}
+
 // [opcode(1)] 1b
 void ccvm_instructions_syscall(CCVM* vm) {
 	switch (vm->registers[0]) {

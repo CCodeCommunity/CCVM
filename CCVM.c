@@ -8,9 +8,9 @@ void (*ccvm_instructionset[256])(CCVM*) = {
   /* 0x04 */ ccvm_instructions_pop_memory,
   /* 0x05 */ ccvm_instructions_stack_dupe,
   /* 0x06 */ ccvm_instructions_mov_lit_reg,
-  /* 0x07 */ ccvm_instructions_nop, // TODO
-  /* 0x08 */ ccvm_instructions_nop, // TODO
-  /* 0x09 */ ccvm_instructions_nop, // TODO
+  /* 0x07 */ ccvm_instructions_mov_lit_mem,
+  /* 0x08 */ ccvm_instructions_mov_mem_reg,
+  /* 0x09 */ ccvm_instructions_mov_reg_mem,
   /* 0x0a */ ccvm_instructions_nop,
   /* 0x0b */ ccvm_instructions_nop,
   /* 0x0c */ ccvm_instructions_nop,
