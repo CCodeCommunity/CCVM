@@ -33,8 +33,8 @@ void (*ccvm_instructionset[256])(CCVM*) = {
   /* 0x1d */ ccvm_instructions_math_or_stack,
   /* 0x1e */ ccvm_instructions_math_xor_reg,
   /* 0x1f */ ccvm_instructions_math_xor_stack,
-  /* 0x20 */ ccvm_instructions_nop, // TODO
-  /* 0x21 */ ccvm_instructions_nop, // TODO
+  /* 0x20 */ ccvm_instructions_jump_absolute,
+  /* 0x21 */ ccvm_instructions_nop,
   /* 0x22 */ ccvm_instructions_nop,
   /* 0x23 */ ccvm_instructions_nop,
   /* 0x24 */ ccvm_instructions_nop,
@@ -52,11 +52,11 @@ void (*ccvm_instructionset[256])(CCVM*) = {
   /* 0x30 */ ccvm_instructions_compare_reg_reg,
   /* 0x31 */ ccvm_instructions_compare_reg_lit,
   /* 0x32 */ ccvm_instructions_compare_stack_lit,
-  /* 0x33 */ ccvm_instructions_nop, // TODO
-  /* 0x34 */ ccvm_instructions_nop, // TODO
-  /* 0x35 */ ccvm_instructions_nop, // TODO
-  /* 0x36 */ ccvm_instructions_nop, // TODO
-  /* 0x37 */ ccvm_instructions_nop, // TODO
+  /* 0x33 */ ccvm_instructions_jump_equal,
+  /* 0x34 */ ccvm_instructions_jump_notequal,
+  /* 0x35 */ ccvm_instructions_jump_greater,
+  /* 0x36 */ ccvm_instructions_jump_smaller,
+  /* 0x37 */ ccvm_instructions_jump_overflow,
   /* 0x38 */ ccvm_instructions_nop,
   /* 0x39 */ ccvm_instructions_nop,
   /* 0x3a */ ccvm_instructions_nop,
@@ -97,8 +97,8 @@ void (*ccvm_instructionset[256])(CCVM*) = {
   /* 0x5d */ ccvm_instructions_nop,
   /* 0x5e */ ccvm_instructions_nop,
   /* 0x5f */ ccvm_instructions_nop,
-  /* 0x60 */ ccvm_instructions_nop, // TODO
-  /* 0x61 */ ccvm_instructions_nop, // TODO
+  /* 0x60 */ ccvm_instructions_procedure_call,
+  /* 0x61 */ ccvm_instructions_procedure_return,
   /* 0x62 */ ccvm_instructions_nop,
   /* 0x63 */ ccvm_instructions_nop,
   /* 0x64 */ ccvm_instructions_nop,
@@ -256,7 +256,7 @@ void (*ccvm_instructionset[256])(CCVM*) = {
   /* 0xfc */ ccvm_instructions_nop,
   /* 0xfd */ ccvm_instructions_nop,
   /* 0xfe */ ccvm_instructions_nop,
-  /* 0xff */ ccvm_instructions_syscall  // TODO
+  /* 0xff */ ccvm_instructions_syscall
 };
 
 CCVM ccvm_create_ccvm() {
@@ -297,14 +297,26 @@ void ccvm_program_debug(CCVM* vm) {
 }
 
 void ccvm_program_step(CCVM* vm) {
-    uint8_t instruction = vm->bytecode[vm->pc];
-    printf("[DEBUG] doing instruction %d\n", instruction);
+    uint8_t instruction = vm->bytecode[vm->pc + vm->headerSize];
+    //printf("[DEBUG] doing instruction %d\n", instruction);
     ccvm_instructionset[instruction](vm);
+}
+
+void ccvm_parse_header(CCVM* vm) {
+  vm->headerSize = 4;
+
+  uint32_t i = 0;
+  while(!(vm->bytecode[i] == 0x1d && vm->bytecode[i + 1] == 0x1d && vm->bytecode[i + 2] == 0x1d && vm->bytecode[i + 3] == 0x1d)) {
+    ccvm_ram_write(vm->ram, i, vm->bytecode[i]);
+    i++;
+    vm->headerSize++;
+  }
 }
 
 void ccvm_program_run(CCVM* vm) {
     vm->stack = ccvm_stack_init();
     vm->ram = ccvm_ram_init();
+    ccvm_parse_header(vm);
     while (!ccvm_flags_get(&vm->flags, ccvm_flag_stop)) {
         ccvm_program_step(vm);    
         vm->pc++;

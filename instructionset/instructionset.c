@@ -39,7 +39,7 @@ uint32_t fetchLit(CCVM* vm) {
 	int n = 0;
 
 	for (int i = 1; i <= 4; i++) {
-		n = (n << 8) + vm->bytecode[vm->pc + i];
+		n = (n << 8) + vm->bytecode[vm->pc + i + vm->headerSize];
 	}
 
 	vm->pc += 4;
@@ -49,7 +49,7 @@ uint32_t fetchLit(CCVM* vm) {
 
 char fetchReg(CCVM* vm) {
 	vm->pc++;
-	return vm->bytecode[vm->pc];
+	return vm->bytecode[vm->pc + vm->headerSize];
 }
 
 void compareNumbers(CCVM* vm, uint32_t a, uint32_t b) {
@@ -339,19 +339,107 @@ void ccvm_instructions_mov_reg_mem(CCVM* vm) {
 	ccvm_ram_write(vm->ram, addr, vm->registers[reg]);
 }
 
+// [opcode(1) address(4)] 5b
+void ccvm_instructions_jump_absolute(CCVM* vm) {
+	uint32_t addr = fetchLit(vm);
+	vm->pc = addr - 1;
+}
+
+// [opcode(1) address(4)] 5b
+void ccvm_instructions_jump_equal(CCVM* vm) {
+	uint32_t addr = fetchLit(vm);
+	if (ccvm_flags_get(&vm->flags, ccvm_flag_equal)) {
+		vm->pc = addr - 1;
+	}
+}
+
+// [opcode(1) address(4)] 5b
+void ccvm_instructions_jump_notequal(CCVM* vm) {
+	uint32_t addr = fetchLit(vm);
+	if (ccvm_flags_get(&vm->flags, ccvm_flag_not_equal)) {
+		vm->pc = addr - 1;
+	}
+}
+
+// [opcode(1) address(4)] 5b
+void ccvm_instructions_jump_greater(CCVM* vm) {
+	uint32_t addr = fetchLit(vm);
+	if (ccvm_flags_get(&vm->flags, ccvm_flag_greater)) {
+		vm->pc = addr - 1;
+	}
+}
+
+
+// [opcode(1) address(4)] 5b
+void ccvm_instructions_jump_smaller(CCVM* vm) {
+	uint32_t addr = fetchLit(vm);
+	if (ccvm_flags_get(&vm->flags, ccvm_flag_smaller)) {
+		vm->pc = addr - 1;
+	}
+}
+
+// [opcode(1) address(4)] 5b
+void ccvm_instructions_jump_overflow(CCVM* vm) {
+	uint32_t addr = fetchLit(vm);
+	if (ccvm_flags_get(&vm->flags, ccvm_flag_overflow)) {
+		vm->pc = addr - 1;
+	}
+}
+
+// [opcode(1) address(4)] 5b
+void ccvm_instructions_procedure_call(CCVM* vm) {
+	ccvm_stack_push(vm->stack, vm->registers[0]);
+	ccvm_stack_push(vm->stack, vm->registers[1]);
+	ccvm_stack_push(vm->stack, vm->registers[2]);
+	ccvm_stack_push(vm->stack, vm->registers[3]);
+	ccvm_stack_push(vm->stack, vm->pc);
+	vm->sbp = vm->stack->length;
+	vm->pc = fetchLit(vm) - 1;
+}
+
+// [opcode(1)] 1b
+void ccvm_instructions_procedure_return(CCVM* vm) {
+	while (vm->sbp != vm->stack->length) {
+		ccvm_stack_pop(vm->stack);
+	}
+
+	vm->pc = ccvm_stack_pop(vm->stack);
+	vm->registers[3] = ccvm_stack_pop(vm->stack);
+	vm->registers[2] = ccvm_stack_pop(vm->stack);
+	vm->registers[1] = ccvm_stack_pop(vm->stack);
+	vm->registers[0] = ccvm_stack_pop(vm->stack);
+
+	vm->sbp = vm->stack->length;
+}
+
 // [opcode(1)] 1b
 void ccvm_instructions_syscall(CCVM* vm) {
 	switch (vm->registers[0]) {
-		case 0: {
-			// cout
+		case 0: { // cout
+			uint32_t ptr = vm->registers[1];
+			uint32_t len = vm->registers[2];
+
+			for (int i = 0; i < len; i++) {
+				putchar((char) ccvm_ram_read(vm->ram, ptr + i));
+			}
+
+			break;
 		}
 
-		case 1: {
-			// cin
+		case 1: { // cin
+			uint32_t ptr = vm->registers[1];
+			uint32_t size = vm->registers[2];
+			char* input = (char*) malloc(size * sizeof(char));
+			fgets(input, size, stdin);
+			
+			for (int i = 0; i < size; i++) {
+				ccvm_ram_write(vm->ram, ptr + i, input[i]);
+			}
+
+			free(input);
 		}
 
-		case 2: {
-			// cclear
+		case 2: { // cclear
 			clearScreen();
 		}
 	}

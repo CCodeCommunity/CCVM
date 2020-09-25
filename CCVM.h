@@ -57,12 +57,14 @@ struct CCVM {
 	uint8_t *bytecode;
 	uint32_t pc;
 	uint32_t sbp;
+	size_t headerSize;
 	size_t program_length;
 };
 
 // main executation functionality
 CCVM 	ccvm_create_ccvm();                   		// returns a new fresh VM with default state
 void ccvm_program_load(CCVM* vm, char* program);	// loads a program into the bytecode array of a VM
+void ccvm_parse_header(CCVM* vm);					// runs trough all the code in the header of the program and loads it in memory
 
 void ccvm_registers_debug(CCVM* vm);				// prints registers
 void ccvm_debug_memory(CCVM* vm);					// prints memory

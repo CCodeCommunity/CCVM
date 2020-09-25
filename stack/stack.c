@@ -50,4 +50,5 @@ void ccvm_stack_debug(CCVM* target) {
     for (int i = target->stack->length - 1; i >= 0; i--) {
         printf("\t%u\n", target->stack->ptr[i]);
     }
+    puts("");
 }

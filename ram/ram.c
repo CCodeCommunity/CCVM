@@ -36,7 +36,13 @@ void ccvm_ram_grow(ccvm_ram* ram, size_t newCapacity) {
 }
 
 void ccvm_ram_debug(CCVM* vm) {
+	printf("memory: capacity: %zu", vm->ram->capacity);
 	for (int i = 0; i <= (vm->ram->capacity); i++) {
+		if (i >= 1000) {
+			puts("...\n");
+			break;
+		}
+
 		if (i % 10 == 0 && i != limit(vm->ram->capacity, 1000)) {
 			printf("\n[0x%.3x] ", i);
 		}
