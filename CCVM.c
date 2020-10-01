@@ -303,24 +303,26 @@ void ccvm_program_step(CCVM* vm) {
 }
 
 void ccvm_parse_header(CCVM* vm) {
+    // Initialises headerSize to minimal header size, since all headers must end in 1d1d1d1d
+    vm->headerSize = 4;
 
-  vm->headerSize = 4;
-
-  uint32_t i = 0;
-
-  while(!(vm->bytecode[i] == 0x1d && vm->bytecode[i + 1] == 0x1d && vm->bytecode[i + 2] == 0x1d && vm->bytecode[i + 3] == 0x1d)) {
-    ccvm_ram_write(vm->ram, i, vm->bytecode[i]);
-    i++;
-    vm->headerSize++;
-  }
+    // Loop through the bytecode and write it to the VM ram unless an ending header has been reached
+    uint32_t i;
+    for(i = 0; !(vm->bytecode[i] == 0x1d && vm->bytecode[i + 1] == 0x1d && vm->bytecode[i + 2] == 0x1d && vm->bytecode[i + 3] == 0x1d), i++) {
+        ccvm_ram_write(vm->ram, i, vm->bytecode[i]);
+        vm->headerSize++;
+    }
 }
 
 void ccvm_program_run(CCVM* vm) {
+    // Initialises the VM Stack and RAM
     vm->stack = ccvm_stack_init();
     vm->ram = ccvm_ram_init();
 
+    // Parses headers and loads them into the RAM
     ccvm_parse_header(vm);
 
+    // While a flag to stop wasn't reached, execute the current step and move onto the next step
     while (!ccvm_flags_get(&vm->flags, ccvm_flag_stop)) {
         ccvm_program_step(vm);    
         vm->pc++;
