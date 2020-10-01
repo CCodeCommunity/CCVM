@@ -19,9 +19,10 @@ int main(int argc, char* argv[]) {
 		return 1;
 	} else {
 		CCVM vm = ccvm_create_ccvm();
-		
+
 		ccvm_program_load(&vm, argv[1]);
-		
+
+		// ccvm_program_debug(&vm);
 		ccvm_program_run(&vm);
 
 		if (debug == 1) {

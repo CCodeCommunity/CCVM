@@ -11,7 +11,7 @@ void (*ccvm_instructionset[256])(CCVM*) = {
   /* 0x07 */ ccvm_instructions_mov_lit_mem,
   /* 0x08 */ ccvm_instructions_mov_mem_reg,
   /* 0x09 */ ccvm_instructions_mov_reg_mem,
-  /* 0x0a */ ccvm_instructions_nop,
+  /* 0x0a */ ccvm_instructions_nop, // load reg
   /* 0x0b */ ccvm_instructions_nop,
   /* 0x0c */ ccvm_instructions_nop,
   /* 0x0d */ ccvm_instructions_nop,
@@ -298,14 +298,16 @@ void ccvm_program_debug(CCVM* vm) {
 
 void ccvm_program_step(CCVM* vm) {
     uint8_t instruction = vm->bytecode[vm->pc + vm->headerSize];
-    //printf("[DEBUG] doing instruction %d\n", instruction);
+    // printf("[DEBUG] doing instruction 0x%.2x\n", instruction);
     ccvm_instructionset[instruction](vm);
 }
 
 void ccvm_parse_header(CCVM* vm) {
+
   vm->headerSize = 4;
 
   uint32_t i = 0;
+
   while(!(vm->bytecode[i] == 0x1d && vm->bytecode[i + 1] == 0x1d && vm->bytecode[i + 2] == 0x1d && vm->bytecode[i + 3] == 0x1d)) {
     ccvm_ram_write(vm->ram, i, vm->bytecode[i]);
     i++;
@@ -316,7 +318,9 @@ void ccvm_parse_header(CCVM* vm) {
 void ccvm_program_run(CCVM* vm) {
     vm->stack = ccvm_stack_init();
     vm->ram = ccvm_ram_init();
+
     ccvm_parse_header(vm);
+
     while (!ccvm_flags_get(&vm->flags, ccvm_flag_stop)) {
         ccvm_program_step(vm);    
         vm->pc++;

@@ -284,8 +284,8 @@ void ccvm_instructions_math_dec_stack(CCVM* vm) {
 
 // [opcode(1) register(1) register(1)] 3b
 void ccvm_instructions_compare_reg_reg(CCVM* vm) {
-	char a = vm->registers[fetchReg(vm)];
-	char b = vm->registers[fetchReg(vm)];
+	uint32_t a = vm->registers[fetchReg(vm)];
+	uint32_t b = vm->registers[fetchReg(vm)];
 	compareNumbers(vm, a, b);
 }
 
@@ -400,16 +400,20 @@ void ccvm_instructions_procedure_call(CCVM* vm) {
 // [opcode(1)] 1b
 void ccvm_instructions_procedure_return(CCVM* vm) {
 	while (vm->sbp != vm->stack->length) {
+		// puts("removing");
 		ccvm_stack_pop(vm->stack);
+		// printf("sbp is now %u\n", vm->stack->length);
 	}
 
-	vm->pc = ccvm_stack_pop(vm->stack);
+	vm->pc = ccvm_stack_pop(vm->stack) + 4;
+
 	vm->registers[3] = ccvm_stack_pop(vm->stack);
 	vm->registers[2] = ccvm_stack_pop(vm->stack);
 	vm->registers[1] = ccvm_stack_pop(vm->stack);
 	vm->registers[0] = ccvm_stack_pop(vm->stack);
 
 	vm->sbp = vm->stack->length;
+
 }
 
 // [opcode(1)] 1b
@@ -441,6 +445,10 @@ void ccvm_instructions_syscall(CCVM* vm) {
 
 		case 2: { // cclear
 			clearScreen();
+		}
+
+		case 3: { // cnumout
+			printf("%lu", vm->registers[1]);
 		}
 	}
 }
