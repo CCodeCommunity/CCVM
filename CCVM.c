@@ -315,11 +315,14 @@ void ccvm_parse_header(CCVM* vm) {
 }
 
 void ccvm_program_run(CCVM* vm) {
+    // Initialises the VM Stack and RAM
     vm->stack = ccvm_stack_init();
     vm->ram = ccvm_ram_init();
 
+    // Parses headers and loads them into the RAM
     ccvm_parse_header(vm);
 
+    // While a flag to stop wasn't reached, execute the current step and move onto the next step
     while (!ccvm_flags_get(&vm->flags, ccvm_flag_stop)) {
         ccvm_program_step(vm);    
         vm->pc++;
