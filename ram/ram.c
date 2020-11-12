@@ -10,7 +10,7 @@ uint32_t limit(int n, int max) {
 ccvm_ram* ccvm_ram_init() {
 	ccvm_ram* ram = malloc(sizeof(ccvm_ram));
 	ram->capacity = 10;
-	ram->memory = (uint32_t*) malloc(10 * sizeof(uint32_t));
+	ram->memory = (uint32_t*) calloc(ram->capacity, sizeof(uint32_t));
 	return ram;
 }
 
@@ -23,8 +23,8 @@ uint32_t ccvm_ram_read(ccvm_ram* ram, uint32_t addr) {
 }
 
 void ccvm_ram_write(ccvm_ram* ram, uint32_t addr, uint32_t val) {
-	if (addr > ram->capacity) {
-		ccvm_ram_grow(ram, addr);
+	if (addr >= ram->capacity) {
+		ccvm_ram_grow(ram, addr + 1);
 	}
 
 	ram->memory[addr] = val;
@@ -37,7 +37,7 @@ void ccvm_ram_grow(ccvm_ram* ram, size_t newCapacity) {
 
 void ccvm_ram_debug(CCVM* vm) {
 	printf("memory: capacity: %zu", vm->ram->capacity);
-	for (int i = 0; i <= (vm->ram->capacity); i++) {
+	for (int i = 0; i < (vm->ram->capacity); i++) {
 		if (i >= 1000) {
 			puts("...\n");
 			break;

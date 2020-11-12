@@ -307,14 +307,16 @@ void ccvm_parse_header(CCVM* vm) {
     vm->headerSize = 4;
 
     // Loop through the bytecode and write it to the VM ram unless an ending header has been reached
-    uint32_t i;
-    for(i = 0; !(vm->bytecode[i] == 0x1d && vm->bytecode[i + 1] == 0x1d && vm->bytecode[i + 2] == 0x1d && vm->bytecode[i + 3] == 0x1d), i++) {
+    uint32_t i = 0;
+    while(!(vm->bytecode[i] == 0x1d && vm->bytecode[i + 1] == 0x1d && vm->bytecode[i + 2] == 0x1d && vm->bytecode[i + 3] == 0x1d)) {
         ccvm_ram_write(vm->ram, i, vm->bytecode[i]);
+        i++;
         vm->headerSize++;
     }
 }
 
 void ccvm_program_run(CCVM* vm) {
+    
     // Initialises the VM Stack and RAM
     vm->stack = ccvm_stack_init();
     vm->ram = ccvm_ram_init();

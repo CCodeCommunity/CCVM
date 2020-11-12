@@ -5,32 +5,6 @@
 
 #include <limits.h>
 
-/*
-// clear screen on windows
-#ifdef _WIN32
-#include <windows.h>
-void clearScreen(void) {
-    HANDLE hOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-    COORD topLeft = {0, 0};
-    DWORD dwCount, dwSize;
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    GetConsoleScreenBufferInfo(hOutput, &csbi);
-    dwSize = csbi.dwSize.X * csbi.dwSize.Y;
-    FillConsoleOutputCharacter(hOutput, 0x20, dwSize, topLeft, &dwCount);
-    FillConsoleOutputAttribute(hOutput, 0x07, dwSize, topLeft, &dwCount);
-    SetConsoleCursorPosition(hOutput, topLeft);
-}
-#endif
-
-// clear sceen on UNIX systems
-#ifdef __unix__
-#include <stdio.h>
-void clearScreen(void) {
-    printf("\x1B[2J");
-}
-#endif
-*/
-
 void clearScreen(void) {
 	system("cls || clear");
 }

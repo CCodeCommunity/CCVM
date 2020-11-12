@@ -26,9 +26,6 @@ int main(int argc, char* argv[]) {
 		ccvm_program_run(&vm);
 
 		if (debug == 1) {
-			//ccvm_program_debug(&vm);
-			//puts("");
-
 			ccvm_stack_debug(&vm);
 
 			ccvm_registers_debug(&vm);
