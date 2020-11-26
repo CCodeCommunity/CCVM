@@ -422,7 +422,7 @@ void ccvm_instructions_syscall(CCVM* vm) {
 		}
 
 		case 3: { // cnumout
-			printf("%lu", vm->registers[1]);
+			printf("%u", vm->registers[1]);
 		}
 	}
 }

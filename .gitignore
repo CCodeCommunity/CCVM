@@ -3,3 +3,5 @@
 ccvm
 *.ccb
 *.cca
+.idea
+cmake-build-debug

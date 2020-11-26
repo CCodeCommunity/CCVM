@@ -268,6 +268,12 @@ void ccvm_program_load(CCVM* vm, char *filename) {
     // open file
     FILE *fp = fopen(filename, "rb");
 
+    // error detection
+    if (fp == NULL) {
+        printf("[ERROR] could not open file: %s", filename);
+        exit(1);
+    }
+
     // get buffer size
     fseek(fp, 0, SEEK_END);
     size_t size = ftell(fp);
@@ -276,11 +282,7 @@ void ccvm_program_load(CCVM* vm, char *filename) {
     // buffer allocation
     unsigned char *buffer = (unsigned char *) malloc(size);
 
-    // error detection
-    if (fp == NULL) {
-        printf("[ERROR] could not open file: %s", filename);
-        exit(1);
-    } else if(fread(buffer, sizeof *buffer, size, fp) != size) {
+    if(fread(buffer, sizeof *buffer, size, fp) != size) {
         printf("[ERROR] while reading file: %s", filename);
         exit(1);
     }
