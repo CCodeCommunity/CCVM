@@ -52,11 +52,11 @@ typedef struct CCVM CCVM;
 /* 0x31 len = 6*/	void ccvm_instructions_compare_reg_lit(CCVM*);
 /* 0x32 len = 5*/	void ccvm_instructions_compare_stack_lit(CCVM*);
 
-/* 0x33 len = 1*/	void ccvm_instructions_jump_equal(CCVM*);
-/* 0x34 len = 1*/	void ccvm_instructions_jump_notequal(CCVM*);
-/* 0x35 len = 1*/	void ccvm_instructions_jump_greater(CCVM*);
-/* 0x36 len = 1*/	void ccvm_instructions_jump_smaller(CCVM*);
-/* 0x37 len = 1*/	void ccvm_instructions_jump_overflow(CCVM*);
+/* 0x33 len = 5*/	void ccvm_instructions_jump_equal(CCVM*);
+/* 0x34 len = 5*/	void ccvm_instructions_jump_notequal(CCVM*);
+/* 0x35 len = 5*/	void ccvm_instructions_jump_greater(CCVM*);
+/* 0x36 len = 5*/	void ccvm_instructions_jump_smaller(CCVM*);
+/* 0x37 len = 5*/	void ccvm_instructions_jump_overflow(CCVM*);
 /* 0x40 len = 1*/	void ccvm_instructions_flag_reset(CCVM*);
 
 // other math opcodes
