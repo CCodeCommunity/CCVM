@@ -24,6 +24,9 @@ typedef struct CCVM CCVM;
 /* 0x07 */	void ccvm_instructions_mov_lit_mem(CCVM*);
 /* 0x08 */	void ccvm_instructions_mov_mem_reg(CCVM*);
 /* 0x09 */	void ccvm_instructions_mov_reg_mem(CCVM*);
+/* 0x0a */  void ccvm_instructions_mov_reg_reg(CCVM*);
+/* 0x0b */  void ccvm_instructions_mov_mem_mem(CCVM*); // todo
+/* 0x0c */  void ccvm_instructions_push_mem(CCVM*);    // todo
 
 // math opcodes
 /* 0x10 */	void ccvm_instructions_math_add_reg(CCVM*);
@@ -65,6 +68,36 @@ typedef struct CCVM CCVM;
 // other
 /* 0x60 */	void ccvm_instructions_procedure_call(CCVM*);
 /* 0x61 */	void ccvm_instructions_procedure_return(CCVM*);
+
+// all new:
+/* 0x70 */
+/* 0x71 */
+/* 0x72 */
+/* 0x73 */
+/* 0x74 */
+/* 0x75 */
+/* 0x76 */
+/* 0x77 */
+/* 0x78 */
+/* 0x79 */
+/* 0x7a */
+/* 0x7b */
+/* 0x7c */
+/* 0x7d */
+/* 0x7e */
+/* 0x7f */
+/* 0x70 */
+/* 0x81 */
+/* 0x82 */
+/* 0x83 */
+/* 0x84 */
+/* 0x85 */
+/* 0x8a */
+/* 0x8b */
+/* 0x8e */
+/* 0x8f */
+// end of all new
+
 /* 0xff */	void ccvm_instructions_syscall(CCVM*);
 
 extern void (*ccvm_instructionset[256])(CCVM*);

@@ -5,3 +5,5 @@ ccvm
 *.cca
 .idea
 cmake-build-debug
+CMakeFiles
+CMakeCache.txt

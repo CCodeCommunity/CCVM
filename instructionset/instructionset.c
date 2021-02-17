@@ -10,10 +10,10 @@ void clearScreen(void) {
 }
 
 uint32_t fetchLit(CCVM* vm) {
-	int n = 0;
+	unsigned int n = 0;
 
 	for (int i = 1; i <= 4; i++) {
-		n = (n << 8) + vm->bytecode[vm->pc + i + vm->headerSize];
+		n = (n << 8u) + vm->bytecode[vm->pc + i + vm->headerSize];
 	}
 
 	vm->pc += 4;
@@ -301,7 +301,7 @@ void ccvm_instructions_mov_lit_mem(CCVM* vm) {
 
 // [opcode(1) register(1) address(4)] 6b
 void ccvm_instructions_mov_mem_reg(CCVM* vm) {
-	uint32_t reg = fetchReg(vm);
+	uint32_t reg = (uint32_t)fetchReg(vm);
 	uint32_t addr = fetchLit(vm);
 	vm->registers[reg] = ccvm_ram_read(vm->ram, addr);
 }
@@ -309,8 +309,16 @@ void ccvm_instructions_mov_mem_reg(CCVM* vm) {
 // [opcode(1) address(4) register(1)] 6b
 void ccvm_instructions_mov_reg_mem(CCVM* vm) {
 	uint32_t addr = fetchLit(vm);
-	uint32_t reg = fetchReg(vm);
+	uint32_t reg = (uint32_t)fetchReg(vm);
 	ccvm_ram_write(vm->ram, addr, vm->registers[reg]);
+}
+
+// [opcode(1) register(1) register(1)]3b
+void ccvm_instructions_mov_reg_reg(CCVM* vm) {
+    uint32_t reg_dest = (uint32_t)fetchReg(vm);
+    uint32_t reg_origin = (uint32_t)fetchReg(vm);
+
+    vm->registers[reg_dest] = vm->registers[reg_origin];
 }
 
 // [opcode(1) address(4)] 5b
