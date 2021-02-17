@@ -11,9 +11,15 @@ void (*ccvm_instructionset[256])(CCVM*) = {
   /* 0x07 */ ccvm_instructions_mov_lit_mem,
   /* 0x08 */ ccvm_instructions_mov_mem_reg,
   /* 0x09 */ ccvm_instructions_mov_reg_mem,
+<<<<<<< HEAD
   /* 0x0a */ ccvm_instructions_nop,
   /* 0x0b */ ccvm_instructions_nop,
   /* 0x0c */ ccvm_instructions_nop,
+=======
+  /* 0x0a */ ccvm_instructions_mov_reg_reg,
+  /* 0x0b */ ccvm_instructions_mov_mem_mem,
+  /* 0x0c */ ccvm_instructions_push_mem,
+>>>>>>> 55b8321d4e1588d28df340504c8fc0ecbca4b6df
   /* 0x0d */ ccvm_instructions_nop,
   /* 0x0e */ ccvm_instructions_nop,
   /* 0x0f */ ccvm_instructions_nop,

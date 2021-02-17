@@ -321,6 +321,26 @@ void ccvm_instructions_mov_reg_reg(CCVM* vm) {
     vm->registers[reg_dest] = vm->registers[reg_origin];
 }
 
+<<<<<<< HEAD
+=======
+// [opcode(1) address(4) address(4)]9b
+void ccvm_instructions_mov_mem_mem(CCVM* vm) {
+    uint32_t addr_origin = fetchLit(vm);
+    uint32_t addr_dest = fetchLit(vm);
+
+    uint32_t value = ccvm_ram_read(vm->ram, addr_origin);
+    ccvm_ram_write(vm->ram, addr_dest, value);
+}
+
+// [opcode(1) address(4)]5b
+void ccvm_instructions_push_mem(CCVM* vm) {
+    uint32_t address = fetchLit(vm);
+    uint32_t value = ccvm_ram_read(vm->ram, address);
+
+    ccvm_stack_push(vm->stack, value);
+}
+
+>>>>>>> 55b8321d4e1588d28df340504c8fc0ecbca4b6df
 // [opcode(1) address(4)] 5b
 void ccvm_instructions_jump_absolute(CCVM* vm) {
 	uint32_t addr = fetchLit(vm);
