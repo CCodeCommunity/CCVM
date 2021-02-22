@@ -1,9 +1,11 @@
 *.exe
 *.bat
 ccvm
+CCVM
 *.ccb
 *.cca
 .idea
 cmake-build-debug
 CMakeFiles
 CMakeCache.txt
+build

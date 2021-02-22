@@ -9,7 +9,7 @@ include_directories(instructionset)
 include_directories(ram)
 include_directories(stack)
 
-add_executable(CCVM
+add_executable(
         flags/flags.c
         flags/flags.h
         instructionset/instructionset.c

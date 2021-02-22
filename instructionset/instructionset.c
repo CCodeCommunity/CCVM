@@ -56,7 +56,7 @@ void ccvm_instructions_mov_lit_reg(CCVM* vm) {
 // [opcode(1) register(1)] 2b
 void ccvm_instructions_push_reg(CCVM* vm) {
 	ccvm_stack_push(vm->stack, vm->registers[fetchReg(vm)]);
-};
+}
 
 // [opcode(1)] 1b 
 void ccvm_instructions_stack_dupe(CCVM* vm) {
@@ -256,6 +256,129 @@ void ccvm_instructions_math_dec_stack(CCVM* vm) {
 	ccvm_stack_push(vm->stack, ++a);
 }
 
+void ccvm_instructions_math_add_reg_num(CCVM* vm) {
+	char reg = fetchReg(vm);
+	uint32_t lit = fetchLit(vm);
+
+	if (vm->registers[reg] > UINT_MAX - lit) { // overflow check
+		ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+	}
+
+	vm->registers[reg] += lit;
+}
+
+void ccvm_instructions_math_add_stack_num(CCVM* vm) {
+	uint32_t a = fetchLit(vm);
+	uint32_t b = ccvm_stack_pop(vm->stack);
+
+	if (a > UINT_MAX - b) { // overflow check
+		ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+	}
+
+	ccvm_stack_push(vm->stack, a + b);
+}
+
+void ccvm_instructions_math_sub_reg_num(CCVM* vm) {
+	char reg = fetchReg(vm);
+	uint32_t lit = fetchLit(vm);
+
+	if (vm->registers[reg] < lit) { // overflow check
+		ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+	}
+
+	vm->registers[reg] -= lit;
+}
+
+void ccvm_instructions_math_sub_stack_num(CCVM* vm) {
+	uint32_t a = fetchLit(vm);
+	uint32_t b = ccvm_stack_pop(vm->stack);
+	
+	
+	if (a < b) { // overflow check
+		ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+	}
+
+	ccvm_stack_push(vm->stack, a - b);
+}
+
+void ccvm_instructions_math_mul_reg_num(CCVM* vm) {
+	char reg = fetchReg(vm);
+	uint32_t lit = fetchLit(vm);
+
+	if (vm->registers[reg] > UINT_MAX / lit) { // overflow check
+		ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+	}
+
+	vm->registers[reg] *= lit;
+}
+
+void ccvm_instructions_math_mul_stack_num(CCVM* vm) {
+	uint32_t a = fetchLit(vm);
+	uint32_t b = ccvm_stack_pop(vm->stack);
+
+	if (a > UINT_MAX / b) { // overflow check
+		ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+	}
+
+	ccvm_stack_push(vm->stack, a * b);
+}
+
+void ccvm_instructions_math_div_reg_num(CCVM* vm) {
+	char reg = fetchReg(vm);
+	uint32_t lit = fetchLit(vm);
+
+	vm->registers[reg] /= lit;
+}
+
+void ccvm_instructions_math_div_stack_num(CCVM* vm) {
+    uint32_t a = fetchLit(vm);
+    uint32_t b = ccvm_stack_pop(vm->stack);
+
+    ccvm_stack_push(vm->stack, a / b);
+}
+
+void ccvm_instructions_math_and_reg_num(CCVM* vm) {
+	char reg = fetchReg(vm);
+	uint32_t lit = fetchLit(vm);
+
+	vm->registers[reg] &= lit;
+}
+
+void ccvm_instructions_math_and_stack_num(CCVM* vm) {
+    uint32_t a = fetchLit(vm);
+    uint32_t b = ccvm_stack_pop(vm->stack);
+
+    ccvm_stack_push(vm->stack, a & b);
+}
+
+void ccvm_instructions_math_or_reg_num(CCVM* vm) {
+	char reg = fetchReg(vm);
+	uint32_t lit = fetchLit(vm);
+
+	vm->registers[reg] |= lit;
+}
+
+void ccvm_instructions_math_or_stack_num(CCVM* vm) {
+    uint32_t a = fetchLit(vm);
+    uint32_t b = ccvm_stack_pop(vm->stack);
+
+    ccvm_stack_push(vm->stack, a | b);
+}
+
+void ccvm_instructions_math_xor_reg_num(CCVM* vm) {
+	char reg = fetchReg(vm);
+	uint32_t lit = fetchLit(vm);
+
+	vm->registers[reg] ^= lit;
+}
+
+void ccvm_instructions_math_xor_stack_num(CCVM* vm) {
+    uint32_t a = fetchLit(vm);
+    uint32_t b = ccvm_stack_pop(vm->stack);
+
+    ccvm_stack_push(vm->stack, a ^ b);
+}
+
 // [opcode(1) register(1) register(1)] 3b
 void ccvm_instructions_compare_reg_reg(CCVM* vm) {
 	uint32_t a = vm->registers[fetchReg(vm)];
@@ -321,8 +444,6 @@ void ccvm_instructions_mov_reg_reg(CCVM* vm) {
     vm->registers[reg_dest] = vm->registers[reg_origin];
 }
 
-<<<<<<< HEAD
-=======
 // [opcode(1) address(4) address(4)]9b
 void ccvm_instructions_mov_mem_mem(CCVM* vm) {
     uint32_t addr_origin = fetchLit(vm);
@@ -340,7 +461,6 @@ void ccvm_instructions_push_mem(CCVM* vm) {
     ccvm_stack_push(vm->stack, value);
 }
 
->>>>>>> 55b8321d4e1588d28df340504c8fc0ecbca4b6df
 // [opcode(1) address(4)] 5b
 void ccvm_instructions_jump_absolute(CCVM* vm) {
 	uint32_t addr = fetchLit(vm);
