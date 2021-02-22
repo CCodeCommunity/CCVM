@@ -1,4 +1,4 @@
-#include "CCVM.h"
+#include "../include/ccvm/CCVM.h"
 
 void (*ccvm_instructionset[256])(CCVM*) = {
   /* 0x00 */ ccvm_instructions_exit,

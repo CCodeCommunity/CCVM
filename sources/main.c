@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "CCVM.h"
-#include "flags/flags.h"
-#include "ram/ram.h"
+#include <ccvm/CCVM.h>
 
 // gcc main.c CCVM.c flags/flags.c instructionset/instructionset.c stack/stack.c ram/ram.c -o ccvm
 // cloc main.c CCVM.c CCVM.h stack instructionset flags ram

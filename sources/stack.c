@@ -1,8 +1,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "stack.h"
-#include "../CCVM.h"
+#include "../include/ccvm/stack.h"
+#include "../include/ccvm/CCVM.h"
 
 ccvm_stack* ccvm_stack_init() {
     ccvm_stack* target = malloc(sizeof(ccvm_stack));

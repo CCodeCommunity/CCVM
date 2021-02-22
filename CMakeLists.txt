@@ -1,23 +1,13 @@
 cmake_minimum_required(VERSION 3.17)
-project(CCVM C)
+project(ccvm C)
 
-set(CMAKE_C_STANDARD 11)
+file(GLOB_RECURSE CCVM_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/sources/*.c")
 
-include_directories(.)
-include_directories(flags)
-include_directories(instructionset)
-include_directories(ram)
-include_directories(stack)
-
-add_executable(
-        flags/flags.c
-        flags/flags.h
-        instructionset/instructionset.c
-        instructionset/instructionset.h
-        ram/ram.c
-        ram/ram.h
-        stack/stack.c
-        stack/stack.h
-        CCVM.c
-        CCVM.h
-        main.c)
+add_executable(ccvm)
+target_sources(ccvm PRIVATE ${CCVM_SOURCES})
+target_include_directories(ccvm PUBLIC "include" "thirdparty")
+set_target_properties(ccvm
+        PROPERTIES
+        LINKER_LANGUAGE C
+        C_STANDARD 11
+        )

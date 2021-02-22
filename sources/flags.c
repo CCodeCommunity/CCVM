@@ -1,8 +1,8 @@
-#include "flags.h"
+#include "../include/ccvm/flags.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../CCVM.h"
+#include "../include/ccvm/CCVM.h"
 
 /*
 	we must get the index'th bit of the values of fs

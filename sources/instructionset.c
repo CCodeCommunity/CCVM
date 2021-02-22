@@ -1,7 +1,4 @@
-#include "instructionset.h"
-#include "../stack/stack.h"
-#include "../flags/flags.h"
-#include "../CCVM.h"
+#include "../include/ccvm/instructionset.h"
 
 #include <limits.h>
 

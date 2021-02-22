@@ -1,4 +1,4 @@
-#include "ram.h"
+#include "../include/ccvm/ram.h"
 #define BEGIN_SIZE 1
 
 // helpers
