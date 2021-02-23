@@ -1,6 +1,7 @@
 #include "../include/ccvm/instructionset.h"
 
 #include <limits.h>
+#include <math.h>
 
 void clearScreen(void) {
 	system("cls || clear");
@@ -374,6 +375,16 @@ void ccvm_instructions_math_xor_stack_num(CCVM* vm) {
     uint32_t b = ccvm_stack_pop(vm->stack);
 
     ccvm_stack_push(vm->stack, a ^ b);
+}
+
+void ccvm_instructions_math_sqrt_reg(CCVM* vm) {
+    char reg = fetchReg(vm);
+    vm->registers[reg] = sqrt(vm->registers[reg]);
+}
+
+void ccvm_instructions_math_sqrt_stack(CCVM* vm) {
+    uint32_t num = ccvm_stack_pop(vm->stack);
+    ccvm_stack_push(vm->stack, sqrt(num));
 }
 
 // [opcode(1) register(1) register(1)] 3b
