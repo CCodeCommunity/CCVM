@@ -2,6 +2,7 @@
 
 #include <limits.h>
 #include <math.h>
+#include <stdlib.h>
 
 void clearScreen(void) {
 	system("cls || clear");
@@ -385,6 +386,15 @@ void ccvm_instructions_math_sqrt_reg(CCVM* vm) {
 void ccvm_instructions_math_sqrt_stack(CCVM* vm) {
     uint32_t num = ccvm_stack_pop(vm->stack);
     ccvm_stack_push(vm->stack, sqrt(num));
+}
+
+void ccvm_instruction_math_rand_reg(CCVM* vm) {
+    char reg = fetchReg(vm);
+    vm->registers[reg] = rand();
+}
+
+void ccvm_instruction_math_rand_stack(CCVM* vm) {
+    ccvm_stack_push(vm->stack, rand());
 }
 
 // [opcode(1) register(1) register(1)] 3b

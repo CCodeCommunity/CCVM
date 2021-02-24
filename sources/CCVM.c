@@ -1,4 +1,6 @@
 #include "../include/ccvm/CCVM.h"
+#include <time.h>
+#include <stdlib.h>
 
 void (*ccvm_instructionset[256])(CCVM*) = {
   /* 0x00 */ ccvm_instructions_exit,
@@ -127,8 +129,8 @@ void (*ccvm_instructionset[256])(CCVM*) = {
   /* 0x7b */ ccvm_instructions_math_or_stack_num,
   /* 0x7c */ ccvm_instructions_math_xor_reg_num,
   /* 0x7d */ ccvm_instructions_math_xor_stack_num,
-  /* 0x7e */ ccvm_instructions_nop,
-  /* 0x7f */ ccvm_instructions_nop,
+  /* 0x7e */ ccvm_instructions_math_rand_reg,
+  /* 0x7f */ ccvm_instructions_math_rand_stack,
   /* 0x80 */ ccvm_instructions_nop,
   /* 0x81 */ ccvm_instructions_nop,
   /* 0x82 */ ccvm_instructions_nop,
@@ -291,13 +293,6 @@ void ccvm_program_load(CCVM* vm, char *filename) {
     vm->program_length = size;
 }
 
-void ccvm_program_debug(CCVM* vm) {
-    for (int i = 0; i < vm->program_length; i++) {
-        printf("0x%.2x ", vm->bytecode[i]);
-    }
-    puts("");
-}
-
 void ccvm_program_step(CCVM* vm) {
     uint8_t instruction = vm->bytecode[vm->pc + vm->headerSize];
     // printf("[DEBUG] doing instruction 0x%.2x\n", instruction);
@@ -318,7 +313,7 @@ void ccvm_parse_header(CCVM* vm) {
 }
 
 void ccvm_program_run(CCVM* vm) {
-    
+    srand(time(NULL));
     // Initialises the VM Stack and RAM
     vm->stack = ccvm_stack_init();
     vm->ram = ccvm_ram_init();
