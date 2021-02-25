@@ -8,6 +8,20 @@ void clearScreen(void) {
 	system("cls || clear");
 }
 
+uint32_t ccvm_helper_pow_int(uint32_t number, uint32_t exponent) {
+    char isOverflow = 0;
+    for (uint32_t _ = 0; _ < exponent; _++) {
+        // overflow check
+        if (number > UINT_MAX / number)
+            isOverflow = 1;
+
+        // do multiplication
+        number *= number;
+    }
+
+    return number;
+}
+
 uint32_t fetchLit(CCVM* vm) {
 	unsigned int n = 0;
 
@@ -395,6 +409,32 @@ void ccvm_instruction_math_rand_reg(CCVM* vm) {
 
 void ccvm_instruction_math_rand_stack(CCVM* vm) {
     ccvm_stack_push(vm->stack, rand());
+}
+
+void ccvm_instructions_math_pow_reg(CCVM* vm) {
+
+}
+
+void ccvm_instructions_math_pow_stack(CCVM* vm) {
+    uint32_t a = ccvm_stack_pop(vm->stack);
+    uint32_t b = ccvm_stack_pop(vm->stack);
+    uint32_t res = pow(a, b);
+
+    if (pow(res, 1/b) != a)
+        ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+
+    ccvm_stack_push(vm->stack, res);
+}
+
+void ccvm_instructions_math_pow_reg_num(CCVM* vm) {
+    int32_t a = fetchReg(vm);
+    int32_t num = fetchLit(vm);
+
+    ccvm_stack_push(vm->stack, pow());
+}
+
+void ccvm_instructions_math_pow_stack_num(CCVM* vm) {
+
 }
 
 // [opcode(1) register(1) register(1)] 3b
