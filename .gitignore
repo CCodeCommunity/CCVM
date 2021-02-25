@@ -1,7 +1,5 @@
 *.exe
 *.bat
-ccvm
-CCVM
 *.ccb
 *.cca
 .idea
