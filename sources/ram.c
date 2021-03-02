@@ -15,11 +15,11 @@ ccvm_ram* ccvm_ram_init() {
 }
 
 uint32_t ccvm_ram_read(ccvm_ram* ram, uint32_t addr) {
-	if (addr > ram->capacity) {
-		ccvm_ram_grow(ram, addr);
-	}
+    if (addr > ram->capacity) {
+        return 0;
+    }
 
-	return ram->memory[addr];
+    return ram->memory[addr];
 }
 
 void ccvm_ram_write(ccvm_ram* ram, uint32_t addr, uint32_t val) {

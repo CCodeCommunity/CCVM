@@ -86,10 +86,10 @@ typedef struct CCVM CCVM;
 /* 0x7d */  void ccvm_instructions_math_xor_stack_num(CCVM*);
 /* 0x7e */  void ccvm_instructions_math_rand_reg(CCVM*);
 /* 0x7f */  void ccvm_instructions_math_rand_stack(CCVM*);
-/* 0x80 */  void ccvm_instructions_math_pow_reg(CCVM*);// todo
-/* 0x81 */  void ccvm_instructions_math_pow_stack(CCVM*);// todo
-/* 0x82 */  void ccvm_instructions_math_pow_reg_num(CCVM*);// todo
-/* 0x83 */  void ccvm_instructions_math_pow_stack_num(CCVM*);// todo
+/* 0x80 */  void ccvm_instructions_math_pow_reg(CCVM*);
+/* 0x81 */  void ccvm_instructions_math_pow_stack(CCVM*);
+/* 0x82 */  void ccvm_instructions_math_pow_reg_num(CCVM*);
+/* 0x83 */  void ccvm_instructions_math_pow_stack_num(CCVM*);
 /* 0x84 */  void ccvm_instructions_math_sqrt_reg(CCVM*);
 /* 0x85 */  void ccvm_instructions_math_sqrt_stack(CCVM*);
 

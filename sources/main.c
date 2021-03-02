@@ -2,9 +2,6 @@
 #include <string.h>
 #include <ccvm/CCVM.h>
 
-// gcc main.c CCVM.c flags/flags.c instructionset/instructionset.c stack/stack.c ram/ram.c -o ccvm
-// cloc main.c CCVM.c CCVM.h stack instructionset flags ram
-
 #include "stdio.h"
 #include <ccvm/CCVM.h>
 #include <ccvm/stack.h>

@@ -394,48 +394,63 @@ void ccvm_instructions_math_xor_stack_num(CCVM* vm) {
 
 void ccvm_instructions_math_sqrt_reg(CCVM* vm) {
     char reg = fetchReg(vm);
-    // vm->registers[reg] = sqrt(vm->registers[reg]);
+    vm->registers[reg] = sqrt(vm->registers[reg]);
 }
 
 void ccvm_instructions_math_sqrt_stack(CCVM* vm) {
     uint32_t num = ccvm_stack_pop(vm->stack);
-    //ccvm_stack_push(vm->stack, sqrt(num));
+    ccvm_stack_push(vm->stack, sqrt(num));
 }
 
-void ccvm_instruction_math_rand_reg(CCVM* vm) {
+void ccvm_instructions_math_rand_reg(CCVM *vm) {
     char reg = fetchReg(vm);
     vm->registers[reg] = rand();
 }
 
-void ccvm_instruction_math_rand_stack(CCVM* vm) {
+void ccvm_instructions_math_rand_stack(CCVM* vm) {
     ccvm_stack_push(vm->stack, rand());
 }
 
 void ccvm_instructions_math_pow_reg(CCVM* vm) {
+    char dest = fetchReg(vm);
+    uint32_t a = vm->registers[dest];
+    uint32_t b = vm->registers[fetchReg(vm)];
+    uint32_t res = pow(a, b);
 
+    // FIX: this wont work properly, make custom pow function to set overflow
+    if (pow(res, 1/b) != a)
+        ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+
+    vm->registers[dest] = res;
 }
 
 void ccvm_instructions_math_pow_stack(CCVM* vm) {
     uint32_t a = ccvm_stack_pop(vm->stack);
     uint32_t b = ccvm_stack_pop(vm->stack);
-    //uint32_t res = pow(a, b);
+    uint32_t res = pow(a, b);
 
-    //if (pow(res, 1/b) != a)
-    //    ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
+    // FIX: this wont work properly, make custom pow function to set overflow
+    if (pow(res, 1/b) != a)
+        ccvm_flags_set(&vm->flags, ccvm_flag_overflow, 1);
 
-    //ccvm_stack_push(vm->stack, res);
+    ccvm_stack_push(vm->stack, res);
 }
 
 void ccvm_instructions_math_pow_reg_num(CCVM* vm) {
-    int32_t a = fetchReg(vm);
+    char reg = fetchReg(vm);
     int32_t num = fetchLit(vm);
 
-    // ccvm_stack_push(vm->stack, pow());
+    ccvm_stack_push(vm->stack, pow(vm->registers[reg], num));
 }
 
 void ccvm_instructions_math_pow_stack_num(CCVM* vm) {
+    int32_t a = ccvm_stack_pop(vm->stack);
+    int32_t b = ccvm_stack_pop(vm->stack);
 
+    ccvm_stack_push(vm->stack, pow(a, b));
 }
+
+
 
 // [opcode(1) register(1) register(1)] 3b
 void ccvm_instructions_compare_reg_reg(CCVM* vm) {
