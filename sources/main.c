@@ -6,6 +6,12 @@
 #include <ccvm/CCVM.h>
 #include <ccvm/stack.h>
 
+#define DEBUG 1
+
+// count lines of code in this project:
+// codel count -e .c .h ^C
+
+
 int main(int argc, char* argv[]) {
     if (argc <= 1) {
         puts("[ERROR] Please give a valid .ccb file");
