@@ -2,9 +2,14 @@
 *.bat
 *.ccb
 *.cca
+*.sln
+*.vcxproj
+*.vcxproj.filters
+
 .idea
 cmake-build-debug
 CMakeFiles
 CMakeCache.txt
 build
 Testing
+cmake_install.cmake
